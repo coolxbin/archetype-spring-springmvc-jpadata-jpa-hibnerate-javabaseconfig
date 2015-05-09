@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+	<appenders>
+		<!-- 控制台输出 -->
+		<!-- %t——线程名称
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} : %msg%n" />
+		</Console> -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyyMMdd HH:mm:ss} %-5level %logger{.1}:%n %msg%n" />
+		</Console>
+		<Console name="OnlyMsgConsole" target="SYSTEM_OUT">
+			<PatternLayout pattern="%C[%L] %msg%n" />
+		</Console>
+	</appenders>
+	<loggers>
+		<!-- 
+			日志器的level属性可选值（顺序从左到右，级别从高到低）
+			OFF FATAL ERROR WARN INFO DEBUG TRACE ALL
+		-->
+		<Logger name="org.mallen.archetypes.archetype_spring_springmvc_jpadata_jpa_hibnerate_javabaseconfig" level="debug" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		
+		<Root level="error">
+			<AppenderRef ref="OnlyMsgConsole" />
+		</Root>
+	</loggers>
+</configuration>
