@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -13,12 +14,14 @@ public class WebInitializer implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
-		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-		ctx.register(WebMVCConfig.class);
-		ctx.setServletContext(servletContext);
-		
+		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+		rootContext.register(WebMVCConfig.class);
+		rootContext.setServletContext(servletContext);
+		// Manage the lifecycle of the root application context
+        servletContext.addListener(new ContextLoaderListener(rootContext));
+        
 		Dynamic servlet = servletContext.addServlet("dispatcher",
-				new DispatcherServlet(ctx));
+				new DispatcherServlet(rootContext));
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 	}
